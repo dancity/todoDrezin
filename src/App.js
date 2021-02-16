@@ -3,15 +3,15 @@ import TodoItem from "./TodoItem";
 
 function App() {
   const [display, setDisplay] = useState([]);
+  const [todo, setTodo] = useState([]);
 
   useEffect(() => {
     const teste = JSON.parse(localStorage.getItem("todos"));
-    console.log("qualquer merda", teste);
     if (teste) {
       console.log("entrei no if");
-      setDisplay([...display, teste]);
+      setDisplay([todo]);
     }
-  }, []);
+  }, [todo]);
 
   //<TodoItem key={item.id} item={item} />
 
@@ -34,14 +34,15 @@ function App() {
     if (display.length !== 0) {
       console.log("Display dentro:", display);
       const tesao = display?.map((item) => item[0]);
-      console.log("Teste do tesao", tesao);
-      //  localStorage.setItem("todos", JSON.stringify(tesao));
+      console.log({ tesao });
+      setTodo([tesao]);
+      localStorage.setItem("todos", JSON.stringify(tesao));
     }
   }, [display]);
 
   return (
-    <div>
-      <div className="input-box">
+    <div style={{ display: "flex", flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1, padding: 50 }} >
+      <div className="input-box" >
         <form onSubmit={submitHandler}>
           <input type="text" name="inputTarefa" placeholder="Nova tarefa" />
           <button className="myButton" type="submit">
@@ -49,11 +50,11 @@ function App() {
           </button>
         </form>
       </div>
-      {display.length !== 0 ? (
-        display.map((item) => <TodoItem key={item.id} item={item} />)
+      {todo.length !== 0 ? (
+        todo.map((item) => <TodoItem key={item.id} item={item} />)
       ) : (
-        <p>Ola tudo bem</p>
-      )}
+          <p>Ola tudo bem</p>
+        )}
     </div>
   );
 }

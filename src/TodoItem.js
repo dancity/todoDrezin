@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import todosData from "./todosData";
+import React from "react";
 import trash from "./App/trash.png";
 
 export default function TodoItem(props) {
@@ -32,15 +31,30 @@ export default function TodoItem(props) {
     }
   } */
 
-  console.log("esse é o props TEXT:", props.item[0].text);
 
   return (
     <>
-      {props.item.map((item) => {
-        <div>
-          <p>{item.text}</p>
-        </div>;
-      })}
+      {props.item.map((item) => (
+        <div className="todo-item" >
+          <input
+            id={item.id}
+            name={item.id}
+            type="checkbox"
+            checked={item.completed}
+            onChange={() => props.checkFunction(item.id)}
+          />
+          <label htmlFor={item.id} >
+            {item.text}
+          </label>
+          <div
+            className="trash-icon"
+            onClick={() => props.deleteFunction(item.id)}
+          >
+            <img src={trash} alt="trash-can"></img>
+          </div>
+        </div>
+      ))
+      }
     </>
   );
 }
