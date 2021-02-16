@@ -31,24 +31,21 @@ export default function TodoItem(props) {
     }
   } */
 
-
   return (
     <>
-      {props.item.map((item) => (
+      {props.item?.map((item) => (
         <div className="todo-item" >
           <input
             id={item.id}
             name={item.id}
             type="checkbox"
             checked={item.completed}
-            onChange={() => props.checkFunction(item.id)}
           />
           <label htmlFor={item.id} >
             {item.text}
           </label>
           <div
             className="trash-icon"
-            onClick={() => props.deleteFunction(item.id)}
           >
             <img src={trash} alt="trash-can"></img>
           </div>

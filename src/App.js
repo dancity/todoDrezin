@@ -1,44 +1,40 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import TodoItem from "./TodoItem";
 
 function App() {
-  const [display, setDisplay] = useState([]);
   const [todo, setTodo] = useState([]);
+  const [save, setSave] = useState([]);
 
   useEffect(() => {
     const teste = JSON.parse(localStorage.getItem("todos"));
-    if (teste) {
-      console.log("entrei no if");
-      setDisplay([todo]);
+    const teste2 = teste?.map(item => item[0]);
+    if (teste2) {
+      console.log({ teste2 });
+      setTodo([...todo, teste2]);
     }
-  }, [todo]);
-
-  //<TodoItem key={item.id} item={item} />
+  }, []);
 
   function submitHandler(event) {
     event.preventDefault();
     const data = [
       {
-        id: display.length + 1,
+        id: todo.length + 1,
         text: event.target[0].value,
         completed: false,
         deleted: false,
       },
     ];
-    setDisplay([...display, data]);
-    //setDisplay(todosData.map((item) => <TodoItem key={item.id} item={item} />));
+    setTodo([...todo, data]);
+    setSave(data);
     event.target[0].value = "";
   }
 
   useEffect(() => {
-    if (display.length !== 0) {
-      console.log("Display dentro:", display);
-      const tesao = display?.map((item) => item[0]);
-      console.log({ tesao });
-      setTodo([tesao]);
-      localStorage.setItem("todos", JSON.stringify(tesao));
+    if (save.length !== 0) {
+      console.log('ENTREI NESSA PORRA INFERNO', save)
+      localStorage.setItem("todos", JSON.stringify(save));
     }
-  }, [display]);
+  }, [save]);
 
   return (
     <div style={{ display: "flex", flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1, padding: 50 }} >
@@ -47,7 +43,7 @@ function App() {
           <input type="text" name="inputTarefa" placeholder="Nova tarefa" />
           <button className="myButton" type="submit">
             Adicionar
-          </button>
+        </button>
         </form>
       </div>
       {todo.length !== 0 ? (
